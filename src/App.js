@@ -8,13 +8,11 @@ function App() {
 
   const apiUrlGetGuests = 'https://gp-js-test.herokuapp.com/pizza/guests';
   const apiUrlGetCurrency = 'https://gp-js-test.herokuapp.com/pizza/currency';
-  const apiUrlGetDrink = `https://gp-js-test.herokuapp.com/pizza/order-cola/12`;
   
     const [guests, setGuests]=useState([])
     const [vegan, setVegan]=useState([])  
     const [orders,setOrders]=useState([])
     const [currencyEx, setCurrencyEx]=useState({})
-    const [drinks, setDrinks]= useState([])
     const [loading, setLoading] = useState(true);
     const [buttonClick, setButtonClick]=useState(true)
    
@@ -65,13 +63,7 @@ function App() {
      setCurrencyEx(json)
   }
 
-//   const drink = async () => {
-//     let response = await fetch(apiUrlGetDrink)
-//     let json3 = await response.json()
-//     setDrinks(json3)
-// }
-
- const buttonLoad =()=>{
+  const buttonLoad =()=>{
   setLoading(!loading)
   setButtonClick(buttonClick)
  }
@@ -103,7 +95,7 @@ function App() {
   
      <>
         <Pizza guests={guests}  />  
-        <TotalTable guests={guests} orders={orders} currencyEx={currencyEx} drinks={drinks}  />
+        <TotalTable guests={guests} orders={orders} currencyEx={currencyEx}  />
      </> }
         
     </div>
