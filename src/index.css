@@ -6,16 +6,15 @@ html, body{
  height: 100%;
  }
  #root{
-  height: 100vh;
+  height: 100%;
   background: center/cover no-repeat url("./images/bcgr.jpg");  
 }
 .App{
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: flex;
-
-  justify-content: center;
-  align-items: flex-end;
+  justify-content: flex-end;
+  align-items: center;
  }
 .loading_btn{
   height: 130px;
@@ -31,9 +30,10 @@ html, body{
   overflow: hidden;
   cursor: pointer;
   display:none;
+  margin-right: 10rem;
 }
 .loading{
-  display: flex;
+  display:flex;
   justify-content: center;
   align-items: center
 }
@@ -61,10 +61,11 @@ html, body{
   justify-content: center;
   margin-right: 10%;
 }
+
 .pizza_container{
-  width: 300px;
-  height: 300px;
-  border: 3px solid #b86650;
+  width: 350px;
+  height: 350px;
+  border:10px solid #915545;
   display: flex;
   border-radius: 50%;
   background: url("./images/pizza.JPG") no-repeat center/cover;
@@ -75,7 +76,7 @@ html, body{
   height: 100%;
   background-color: #b86650;
   position: absolute;
-  left: 150px;
+  left: 175px;
   border-radius: 4px;
 }
 .descriptions{
@@ -90,27 +91,18 @@ html, body{
   font-style: italic;
   font-weight: 600;
 }
-.preloader{
-  position: fixed;
-  font-size: 30px;
-  left:60%;
-  top:60%;
-  width: 30%;
-  height: 30%;
-  z-index: 2;
-  opacity: 0;
-  visibility: hidden;
-}
 .done{ 
   opacity: 1;
   visibility: visible;
 }
 .total-table_wrapper{
+  display: flex;
   text-decoration: none;
   border-collapse:collapse;
-  width:50%;
+  width:35%;
   text-align:left;
 }
+
 .total-table_wrapper th{
   font-weight:normal;
   font-size:16px; 
@@ -122,8 +114,8 @@ html, body{
 }
 .total-table_wrapper td,.total-table_wrapper th{
   white-space:pre-wrap;
-  padding:12px 20px;
-  line-height:14px;
+  padding:10px 10px;
+  line-height:5px;
   vertical-align: middle;
   border: 1px solid #348f00;
 }
@@ -133,3 +125,36 @@ html, body{
 .total-table_wrapper tr:hover td{
   color:#354251;cursor:default;
 } 
+.table-btn {
+  width: 60px;
+  height: 30px;
+  color: #fff;
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+   7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  outline: none;
+}
+.btn {
+  background: rgb(6, 131, 89);
+  background: linear-gradient(0deg, rgb(6, 131, 83) 0%, rgb(12, 180, 158) 100%);
+  border: none;
+}
+.btn:hover {
+   background: rgb(44, 160, 168);
+background: linear-gradient(0deg, rgb(36, 99, 110) 0%, rgba(2,126,251,1) 100%);
+}
+.btn-dis {
+  background: rgb(6, 131, 89);
+  background: linear-gradient(0deg, rgb(6, 131, 83) 0%, rgb(12, 180, 158) 100%);
+  border: none;
+  opacity: .7;
+}

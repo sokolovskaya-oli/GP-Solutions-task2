@@ -1,21 +1,28 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 
-const TotalTable = ({guests, orders,currencyEx,drinks})=>{
-    const totalCosts = ()=>{
-        let count = guests.length;
-        console.log(count)
-        let pizzaCost = orders.price;
-        console.log(pizzaCost)
-        let curs = currencyEx.EUR
-        let cola = drinks.price
-        console.log(cola)
-        let total = (pizzaCost+cola)/count
-         console.log(total)
-      }
-    
+const TotalTable = ({guests, orders,currencyEx})=>{
+
+    const orderPriceBYN = (orders, currencyEx) => {
+        return orders.price.endsWith("USD") == orders.price.slice(-3) &&
+            orders.price.endsWith("EUR")== orders.price.slice(-3) ? parseInt(orders.price)*currencyEx.orders.price.slice(-3)
+           : parseInt(orders.price)
+   }
+    let allOrders = orderPriceBYN(orders, currencyEx);
+    let oneOrder = Number.parseFloat(orderPriceBYN(orders, currencyEx) / guests.length);
+
+    const [allMoneyCollected, setAllMoneyCollected] = useState(0);
+    const [moneyToCollect, setMoneyToCollect]=useState(allOrders)
+    const [buttonDisable, setButtonDisable]= useState(false)
+    const [changePay, setChangePay]= useState(true)
+    const payPart=()=>{
+          setAllMoneyCollected(allMoneyCollected+oneOrder)
+          setMoneyToCollect(moneyToCollect-oneOrder)
+          setButtonDisable(!buttonDisable) 
+          setChangePay(!changePay)     
+    }
+     
     return(
-        
         <table className="total-table_wrapper">
         <tbody>
             <tr>
@@ -23,26 +30,30 @@ const TotalTable = ({guests, orders,currencyEx,drinks})=>{
                 <td>Share to pay</td>
                 <td>Pay</td>
             </tr>
-            {guests.map(item=>
-            <tr key={Date.now()}>
+            {guests.map((item, index)=>
+            <tr key={index}>
+                <td>{item.name}</td>
+                               
+                <td>{oneOrder} BYN</td>
+                <td key={index}> 
+                    {changePay === true ? 
+                    <button onClick={payPart} disabled={buttonDisable} value={index} className="table-btn btn">Pay</button> 
+                    : <button disabled={buttonDisable} value={index} className="table-btn btn-dis">Paid
+                    </button>}
+                </td>
                
-                    <td>{item.name}</td>
-                
-                
-                <td>{totalCosts()}</td>
-                <td><button>Pay</button></td>
             </tr>)}
             <tr>
                 <td>Total order</td>
-                <td colSpan="2"></td>
+                <td colSpan="2">{allOrders} BYN</td>
             </tr>
             <tr>
                 <td>Money to collect</td>
-                <td colSpan="2"></td>
+                <td colSpan="2">{moneyToCollect} BYN</td>
             </tr>
             <tr>
                 <td>Money collected</td>
-                <td colSpan="2"></td>
+                <td colSpan="2">{allMoneyCollected} BYN</td>
             </tr>
         </tbody>
     </table>

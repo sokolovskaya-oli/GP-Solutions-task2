@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Pizza from "./Components/Pizza";
 import TotalTable from "./Components/TotalTable";
+import Button from "./Components/Button";
 
 
 function App() {
@@ -12,9 +13,12 @@ function App() {
     const [guests, setGuests]=useState([])
     const [vegan, setVegan]=useState([])  
     const [orders,setOrders]=useState([])
-    const [currencyEx, setCurrencyEx]=useState([])
+    const [currencyEx, setCurrencyEx]=useState({})
     const [drinks, setDrinks]= useState([])
-    
+    const [loading, setLoading] = useState(true);
+    const [buttonClick, setButtonClick]=useState(true)
+   
+
   const loadGuests = async()=>{
     const response = await fetch(apiUrlGetGuests);
     const data = await response.json()
@@ -39,39 +43,40 @@ function App() {
   }
   
   const getPizzaType = () => {
-
     let pizzaTypesVegan = ['vegan', 'cheese']
-     if(vegan.length >= 12 / 2){
+    let count = vegan.length*2+3;
+     if(vegan.length >= count/ 2){
         let randomNum = Math.floor(Math.random() * 2)
-         return `https://gp-js-test.herokuapp.com/pizza/order/${pizzaTypesVegan[randomNum]}/12`
+         return `https://gp-js-test.herokuapp.com/pizza/order/${pizzaTypesVegan[randomNum]}/${count}`
     }else{
-         return `https://gp-js-test.herokuapp.com/pizza/order/meat/12`
+         return `https://gp-js-test.herokuapp.com/pizza/order/meat/${count}`
     }
   }
 
    const order = async() => {
       let response = await fetch(getPizzaType(guests))
-      let json2 = await response.json()
-      setOrders(json2)
+      let json = await response.json()
+      setOrders(json)
   }
 
   const currensyEx = async () => {
       let response = await fetch(apiUrlGetCurrency)
-      let json1 = await response.json()
-     setCurrencyEx(json1)
+      let json = await response.json()
+     setCurrencyEx(json)
   }
 
-  const drink = async () => {
-    let response = await fetch(apiUrlGetDrink)
-    let json3 = await response.json()
-    setDrinks(json3)
-}
+//   const drink = async () => {
+//     let response = await fetch(apiUrlGetDrink)
+//     let json3 = await response.json()
+//     setDrinks(json3)
+// }
 
- 
- 
-      //   setEaters(getCommonState(guests, vegan))
+ const buttonLoad =()=>{
+  setLoading(!loading)
+  setButtonClick(buttonClick)
+ }
+   
   // let promises= [currensyEx(), order()];   
-
   // const loadPromises = async () => {
   //   Promise.all(promises)
   //   .then(results => {
@@ -79,25 +84,27 @@ function App() {
   //   });
   // }
 
-  useEffect(() => {  
-      loadGuests().then(dataURl => {
-        if(dataURl) {
-          loadVegans(dataURl)
+   useEffect(() => {  
+    
+      loadGuests().then(URl => {
+        if(URl) {
+          loadVegans(URl)
         }
        })
-      
         order()
         currensyEx()
-        drink()
-    }, [])   
+        }, [buttonClick])   
   
   
   return (
     <div className="App">
-       <button className="loading_btn loading">Загрузить</button>
-        <div className="preloader">Waiting...</div>
-        <TotalTable guests={guests} orders={orders} currencyEx={currencyEx} drinks={drinks} />
-        <Pizza guests={guests} />
+      <Button loading ={loading} buttonLoad={buttonLoad}/> 
+     {loading || orders.length === 0 ? (<p>loading...</p>) :
+  
+     <>
+        <Pizza guests={guests}  />  
+        <TotalTable guests={guests} orders={orders} currencyEx={currencyEx} drinks={drinks}  />
+     </> }
         
     </div>
   );
